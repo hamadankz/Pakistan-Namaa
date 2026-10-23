@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Pakistan Naama</title>
+<meta name="description" content="The Pakistan Naama: a student news magazine from Lahore. Fall Edition.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Barlow+Condensed:wght@500;700&family=Noto+Nastaliq+Urdu:wght@500&display=swap">
+<style>
+/* Layout: fall-edition news magazine. Script masthead over falling leaves, headline ticker, cover story + side column,
+   columns and reports, a 3D page-turning issue, playable puzzles, team wall. Burgundy carries the identity, orange marks action. */
+:root {
+  --bg: #f6efe6; --paper: #fffaf3; --fg: #2a1c16; --muted: #6f5a4d; --rule: #e3d3c2;
+  --burgundy: #7a1f2b; --orange: #c2611f; --olive: #5f6b3a; --soft: #efe0cf; --shadow: rgba(42,28,22,.18);
+  --f-script: "Great Vibes", "Brush Script MT", cursive;
+  --f-head: "Fraunces", Georgia, serif;
+  --f-body: "Source Serif 4", Georgia, serif;
+  --f-label: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --f-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  --reader-size: 18px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #17100d; --paper: #211714; --fg: #f2e7dc; --muted: #b9a596; --rule: #3b2b25;
+  --burgundy: #f2ede3; --orange: #f29a52; --olive: #b1c07f; --soft: #2c201b; --shadow: rgba(0,0,0,.5); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #17100d; --paper: #211714; --fg: #f2e7dc; --muted: #b9a596; --rule: #3b2b25;
+  --burgundy: #f2ede3; --orange: #f29a52; --olive: #b1c07f; --soft: #2c201b; --shadow: rgba(0,0,0,.5); color-scheme: dark }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 17px; line-height: 1.6; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { margin: 0; line-height: 1.1; text-wrap: balance; }
+h2, h3 { font-family: var(--f-head); font-weight: 700; }
+p { margin: 0; }
+button { font: inherit; cursor: pointer; color: inherit; }
+a { color: var(--burgundy); }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.label { font-family: var(--f-label); text-transform: uppercase; letter-spacing: .12em; font-size: 13px; font-weight: 700; color: var(--orange); }
+.byline { font-family: var(--f-label); font-size: 14px; letter-spacing: .04em; color: var(--muted); }
+.todo { background: var(--soft); border-bottom: 2px dotted var(--orange); padding: 0 4px; font-style: italic; color: var(--muted); }
+.badge { align-self: flex-start; font-family: var(--f-label); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; border: 1px dashed var(--orange); color: var(--orange); padding: 1px 7px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; background: var(--burgundy); color: var(--paper); border: 0; padding: 9px 18px; border-radius: 2px; font-family: var(--f-label); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 14px; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--burgundy); box-shadow: inset 0 0 0 1px var(--burgundy); }
+.btn:disabled { opacity: .35; cursor: default; }
+.icon-btn { background: none; border: 1px solid currentColor; border-radius: 2px; padding: 2px 9px; font-family: var(--f-label); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+
+/* Top bar + masthead */
+.topbar { background: var(--burgundy); color: var(--paper); font-family: var(--f-label); font-size: 14px; letter-spacing: .06em; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-block: 6px; }
+.topbar .tools { display: flex; gap: 8px; }
+.masthead { position: relative; overflow: hidden; text-align: center; padding-block: 26px 18px; }
+.masthead canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.masthead .inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.masthead .logo { max-height: 90px; width: auto; margin-bottom: 6px; }
+.masthead h1 { font-family: var(--f-script); font-weight: 400; font-size: clamp(3.4rem, 12vw, 7rem); color: var(--burgundy); line-height: 1.05; padding-inline: .15em; }
+.masthead .urdu { font-family: var(--f-urdu); font-size: 1.35rem; color: var(--olive); line-height: 2.3; direction: rtl; }
+.masthead .tag { font-family: var(--f-label); letter-spacing: .22em; text-transform: uppercase; font-size: 13px; color: var(--muted); }
+.edition { margin-top: 10px; font-family: var(--f-label); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; font-size: 13px; color: var(--paper); background: var(--orange); padding: 3px 14px; }
+@media (prefers-reduced-motion: no-preference) {
+  .masthead h1 { animation: ink 1.6s cubic-bezier(.6,.1,.2,1) both; }
+  .masthead .urdu { animation: rise .8s .9s both; }
+  @keyframes ink { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes rise { from { opacity: .001; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
+nav.sections { border-top: 2px solid var(--fg); border-bottom: 1px solid var(--fg); position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 15; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 16; background: var(--bg); }
+nav.sections .wrap { display: flex; gap: 2px; overflow-x: auto; padding-block: 5px; scrollbar-width: none; }
+nav.sections a { color: var(--fg); text-decoration: none; font-family: var(--f-label); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; padding: 7px 11px; white-space: nowrap; }
+nav.sections a:hover, nav.sections a.on { background: var(--soft); color: var(--burgundy); }
+
+.ticker { background: var(--fg); color: var(--bg); overflow: hidden; font-family: var(--f-label); letter-spacing: .06em; font-size: 14px; }
+.ticker .track { display: flex; gap: 40px; width: max-content; padding-block: 7px; padding-left: 16px; }
+.ticker span b { color: var(--orange); margin-right: 8px; text-transform: uppercase; letter-spacing: .12em; }
+@media (prefers-reduced-motion: no-preference) { .ticker .track { animation: tick 45s linear infinite; } .ticker:hover .track { animation-play-state: paused; } @keyframes tick { to { transform: translateX(-50%); } } }
+@media (prefers-reduced-motion: reduce) { .ticker { overflow-x: auto; } }
+
+section.block { padding-block: 40px; border-bottom: 1px solid var(--rule); scroll-margin-top: 56px; }
+.sec-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.sec-head h2 { font-family: var(--f-script); font-weight: 400; font-size: clamp(2.4rem, 6vw, 3.4rem); color: var(--burgundy); }
+.sec-head p { color: var(--muted); font-style: italic; }
+
+/* Cover story */
+.story { cursor: pointer; display: flex; flex-direction: column; gap: 8px; min-width: 0; text-align: left; background: none; border: 0; padding: 0; }
+.story:hover h2, .story:hover h3 { color: var(--burgundy); }
+.frontpage { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 36px; }
+.cover { display: grid; gap: 14px; }
+.cover h2 { font-size: clamp(2.3rem, 6vw, 4.4rem); font-weight: 900; letter-spacing: -.01em; }
+.cover h2 em { font-style: italic; font-weight: 500; color: var(--burgundy); }
+.cover .dek { font-size: 1.2rem; max-width: 52ch; }
+.meta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.photo { position: relative; aspect-ratio: 16/9; max-width: 100%; overflow: hidden; background: var(--soft); }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo.empty { background:
+  radial-gradient(circle at 70% 40%, transparent 0 22%, color-mix(in srgb, var(--orange) 35%, transparent) 22.4% 23.6%, transparent 24.5%),
+  radial-gradient(circle at 74% 46%, transparent 0 19%, color-mix(in srgb, var(--burgundy) 22%, transparent) 19.3% 20%, transparent 20.6%),
+  radial-gradient(circle at 25% 70%, color-mix(in srgb, var(--olive) 18%, transparent) 0 9%, transparent 9.5%),
+  var(--soft); }
+.photo .cap { position: absolute; left: 10px; bottom: 8px; font-family: var(--f-label); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.side { display: flex; flex-direction: column; gap: 22px; border-left: 1px solid var(--rule); padding-left: 28px; min-width: 0; }
+.side .story + .story, .side .note { border-top: 1px solid var(--rule); padding-top: 22px; }
+.side h3 { font-size: 1.35rem; }
+.note { display: flex; flex-direction: column; gap: 8px; }
+.note p { font-family: var(--f-head); font-style: italic; font-size: 1.05rem; }
+
+/* Columns + reports */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+.col-card { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; align-items: start; }
+.mono { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-script); font-size: 2rem; color: var(--paper); background: var(--olive); }
+.col-card h3 { font-size: 1.45rem; font-style: italic; font-weight: 500; }
+.rep-card { border-top: 3px solid var(--orange); padding-top: 14px; }
+.rep-card h3 { font-size: 1.4rem; }
+
+/* 3D book */
+.issue { background: var(--soft); }
+.book3d { position: relative; width: 100%; max-width: 1080px; margin: 0 auto; aspect-ratio: 2 / 1.28; perspective: 2400px; }
+.book3d::before { content: ""; position: absolute; inset: 0; background: var(--paper); box-shadow: 0 18px 40px var(--shadow); }
+.book3d::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 40px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--shadow), transparent); opacity: .5; pointer-events: none; z-index: 900; }
+.leaf { position: absolute; top: 0; left: 50%; width: 50%; height: 100%; transform-origin: left center; transform-style: preserve-3d; transition: transform 1s cubic-bezier(.3,.75,.25,1); }
+.leaf.flipped { transform: rotateY(-180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--paper); overflow: hidden; }
+.face.back { transform: rotateY(180deg); }
+.face .pg > *, .book-mobile .pg > * { flex-shrink: 0; }
+.face .pg { height: 100%; padding: clamp(18px, 3.5vw, 40px); display: flex; flex-direction: column; gap: 12px; overflow: auto; }
+.face.front .pg { background: linear-gradient(90deg, var(--shadow) 0, transparent 6%); }
+.face.back .pg { background: linear-gradient(270deg, var(--shadow) 0, transparent 6%); }
+.pg h3 { font-size: clamp(1.2rem, 2.4vw, 1.8rem); }
+.pg .pno { margin-top: auto; font-family: var(--f-label); font-size: 13px; letter-spacing: .08em; color: var(--muted); }
+.pg ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; font-size: .98rem; }
+.pg .linky { background: none; border: 0; padding: 0; color: var(--burgundy); text-decoration: underline; text-align: left; }
+.pg.coverpg { background: var(--burgundy) !important; color: var(--paper); justify-content: center; align-items: center; text-align: center; }
+.pg.coverpg .big { font-family: var(--f-script); font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1.05; }
+.pg.coverpg .label, .pg.coverpg .pno { color: var(--paper); opacity: .85; }
+.pg.endpg { background: var(--fg) !important; color: var(--bg); justify-content: center; align-items: center; text-align: center; }
+.pg.endpg .big { font-family: var(--f-script); font-size: clamp(2rem, 4vw, 3.4rem); }
+.flip { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 22px; font-family: var(--f-label); font-size: 15px; font-variant-numeric: tabular-nums; }
+.book-mobile { background: var(--paper); box-shadow: 0 12px 30px var(--shadow); min-height: 440px; display: flex; }
+.book-mobile .pg { width: 100%; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+/* Entertainment */
+.fun { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; }
+.fun h3 { margin-bottom: 12px; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.tabs .btn[aria-pressed="false"] { background: transparent; color: var(--burgundy); box-shadow: inset 0 0 0 1px var(--burgundy); }
+.ws-wrap { overflow-x: auto; padding-bottom: 4px; }
+.ws-grid { display: grid; gap: 3px; width: max-content; user-select: none; touch-action: none; }
+.ws-grid button { width: 31px; height: 31px; border: 0; border-radius: 2px; background: var(--paper); font-family: var(--f-label); font-weight: 700; font-size: 16px; padding: 0; transition: background .15s, color .15s; }
+.ws-grid button.sel { background: var(--orange); color: var(--paper); }
+.ws-grid button.found { background: var(--olive); color: var(--paper); }
+.ws-words { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 12px 0 0; padding: 0; list-style: none; font-family: var(--f-label); font-size: 15px; letter-spacing: .06em; }
+.ws-words li.done { text-decoration: line-through; color: var(--olive); }
+.ws-msg { font-family: var(--f-label); color: var(--muted); min-height: 1.5em; margin-top: 8px; }
+.playlist { list-style: none; margin: 0; padding: 0; counter-reset: t; }
+.playlist li { counter-increment: t; display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 10px; padding-block: 10px; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.playlist li::before { content: counter(t, decimal-leading-zero); font-family: var(--f-label); color: var(--orange); font-weight: 700; font-variant-numeric: tabular-nums; }
+.playlist .artist { color: var(--muted); font-size: .92rem; display: block; }
+.playlist .yr { font-family: var(--f-label); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Team */
+.team { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px; }
+.team h3 { font-family: var(--f-label); text-transform: uppercase; letter-spacing: .12em; font-size: 15px; color: var(--burgundy); border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 10px; }
+.team ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.team li { display: flex; align-items: center; gap: 10px; }
+.team .mono { width: 34px; height: 34px; font-size: 1.3rem; flex: none; }
+
+/* Overlays: reader + search */
+.overlay { position: fixed; inset: 0; z-index: 50; background: color-mix(in srgb, var(--fg) 55%, transparent); overflow-y: auto; display: flex; justify-content: center; align-items: flex-start;
+  padding: max(24px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px)); }
+.progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--orange); z-index: 60; width: 0; }
+.reader { background: var(--paper); max-width: 760px; width: 100%; padding: clamp(22px, 5vw, 48px); display: flex; flex-direction: column; gap: 16px; }
+.reader .bar { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.reader .bar div { display: flex; gap: 6px; }
+.reader h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; }
+.reader .dek { font-size: 1.2rem; font-style: italic; color: var(--muted); }
+.reader .body { font-size: var(--reader-size); }
+.reader .body p { margin: 0 0 1em; max-width: 66ch; }
+.reader .body p:first-child::first-letter { font-family: var(--f-head); font-weight: 900; float: left; font-size: 3.6em; line-height: .85; padding: 6px 8px 0 0; color: var(--burgundy); }
+.reader .body blockquote { margin: 1.2em 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--orange); font-family: var(--f-head); font-style: italic; font-size: 1.3em; line-height: 1.35; }
+.search { background: var(--paper); max-width: 640px; width: 100%; margin-top: 8vh; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.search input { width: 100%; font: inherit; font-size: 1.2rem; padding: 10px 12px; border: 1px solid var(--rule); background: var(--bg); color: var(--fg); }
+.search ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.search li button { width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--rule); padding: 10px 4px; display: flex; flex-direction: column; gap: 2px; }
+.search li button:hover, .search li button:focus-visible { background: var(--soft); }
+.toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: var(--bg); padding: 8px 16px; font-family: var(--f-label); letter-spacing: .06em; z-index: 70; }
+
+footer { background: var(--fg); color: var(--bg); }
+footer .wrap { padding-block: 30px; display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: center; }
+footer .name { font-family: var(--f-script); font-size: 2.4rem; line-height: 1; }
+footer a { color: var(--bg); font-family: var(--f-label); letter-spacing: .1em; text-transform: uppercase; font-size: 14px; }
+footer .links { display: flex; gap: 18px; flex-wrap: wrap; }
+footer small { font-family: var(--f-label); letter-spacing: .06em; opacity: .75; }
+
+@media (max-width: 800px) {
+  .frontpage, .fun { grid-template-columns: 1fr; }
+  .side { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 22px; }
+  .ws-grid button { width: 25px; height: 25px; font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .leaf { transition: none; } }
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <span id="today"></span>
+  <div class="tools">
+    <button class="icon-btn" id="searchBtn" aria-label="Search the issue">Search</button>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch light or dark">Dark</button>
+  </div>
+</div></div>
+
+<header class="masthead">
+  <canvas id="leaves" aria-hidden="true"></canvas>
+  <div class="inner wrap">
+    <img class="logo" id="logo" alt="The Pakistan Naama logo" hidden>
+    <h1>The Pakistan Naama</h1>
+    <div class="urdu" lang="ur">پاکستان نامہ</div>
+    <div class="tag">Stories the usual narrative leaves out</div>
+    <div class="edition" id="edition">Fall Edition</div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Sections"><div class="wrap" id="nav">
+  <a href="#cover">Main Story</a><a href="#columns">Columns</a><a href="#reports">Reports</a>
+  <a href="#issue">Read the Issue</a><a href="#fun">Entertainment</a><a href="#team">Team</a>
+</div></nav>
+<div class="ticker" aria-label="In this issue"><div class="track" id="ticker"></div></div>
+
+<main>
+  <section class="block wrap" id="cover">
+    <div class="frontpage">
+      <div id="lead"></div>
+      <aside class="side" id="side"></aside>
+    </div>
+  </section>
+  <section class="block wrap" id="columns">
+    <div class="sec-head"><h2>Columns</h2><p>Opinion, commentary and the occasional bit of satire.</p></div>
+    <div class="cards" id="columnList"></div>
+  </section>
+  <section class="block wrap" id="reports">
+    <div class="sec-head"><h2>Reports</h2><p>From the reporters' notebooks.</p></div>
+    <div class="cards" id="reportList"></div>
+  </section>
+  <section class="block issue" id="issue">
+    <div class="wrap">
+      <div class="sec-head"><h2>Read the Issue</h2><p>Turn the pages of the Fall Edition. Arrow keys work too.</p></div>
+      <div id="bookHost" tabindex="0" aria-label="Magazine. Use left and right arrow keys to turn pages."></div>
+      <div class="flip">
+        <button class="btn" id="prev">‹ Prev</button>
+        <span id="pageInfo" aria-live="polite"></span>
+        <button class="btn" id="next">Next ›</button>
+      </div>
+    </div>
+  </section>
+  <section class="block wrap" id="fun">
+    <div class="sec-head"><h2>Entertainment</h2><p>Puzzles and a playlist for the season.</p></div>
+    <div class="fun">
+      <div>
+        <h3>Word Search</h3>
+        <div class="tabs" id="wsTabs"></div>
+        <div class="ws-wrap"><div class="ws-grid" id="wsGrid"></div></div>
+        <p class="ws-msg" id="wsMsg" aria-live="polite">Drag across a word, or tap its first and last letters.</p>
+        <ul class="ws-words" id="wsWords"></ul>
+      </div>
+      <div>
+        <h3>The Fall Playlist</h3>
+        <ol class="playlist" id="playlist"></ol>
+      </div>
+    </div>
+  </section>
+  <section class="block wrap" id="team" style="border-bottom:0">
+    <div class="sec-head"><h2>The Team</h2><p>The people behind the paper.</p></div>
+    <div class="team" id="teamList"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div><div class="name">The Pakistan Naama</div><small>POL 268 · Group 1 · Lahore</small></div>
+  <div class="links">
+    <a href="https://www.instagram.com/the.pakistan.naama/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://x.com/thepakistannama" target="_blank" rel="noopener">X</a>
+    <a href="https://www.facebook.com/share/18bbfNcEJQ/" target="_blank" rel="noopener">Facebook</a>
+  </div>
+</div></footer>
+
+<div class="progress" id="progress" hidden></div>
+<div class="overlay" id="readerOv" hidden></div>
+<div class="overlay" id="searchOv" hidden>
+  <div class="search" role="dialog" aria-modal="true" aria-label="Search the issue">
+    <label class="label" for="q">Search the issue</label>
+    <input id="q" type="search" placeholder="Try: chai, smog, parks" autocomplete="off">
+    <ul id="results"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* All the content of the issue. Edit the text here and save; Live Server reloads the page. */
+const CONTENT = {
+  "issue": { "edition": "Fall Edition · Issue 01", "logo": "images/logo.png" },
+  "editorsNote": {
+    "sample": true,
+    "author": "Fatima, Editor-in-Chief",
+    "text": "Welcome to the first issue of The Pakistan Naama. We started this paper to look again at the stories everyone thinks they already know. This Fall Edition begins with something as ordinary as a cup of coffee and asks what it says about class, space and who our cities are built for."
+  },
+  "main": {
+    "id": "main-story", "sample": true, "section": "Main Story", "author": "Natalia", "image": "images/main-story.jpg",
+    "title": "Lahore's Coffee Boom",
+    "dek": "A new café opens almost every month. Who are these spaces for, and what happened to the dhaba?",
+    "body": [
+      "Walk down any commercial lane in DHA or Gulberg this autumn and you will pass at least one café that did not exist two years ago. Exposed brick, hanging plants, a chalkboard menu in English and a queue of students with laptops. Lahore, a city that has always gathered over chai, is learning to gather over oat-milk lattes.",
+      "The numbers on the menu tell the story before anyone speaks. A cup of doodh patti at a roadside dhaba still costs roughly the price of a bus fare. A flavoured latte a few streets away can cost ten times as much. The coffee is not the only thing being sold. What customers pay for is the space: air conditioning, Wi-Fi, a table nobody will ask you to leave, and the feeling of being somewhere that looks like the rest of the world.",
+      "> [Quote from café owner interview: why they opened, who their customers are]",
+      "Sociologists call these 'third spaces', places that are neither home nor work, where people meet as equals. Lahore has always had them. The dhaba, the chai khoka outside a college gate, the park bench in Lawrence Gardens, the tea stall where retired men argue about cricket and politics. What is new is that the third space now has a cover charge.",
+      "For many students, the café has become the default place to study, date, celebrate and network. Baristas we spoke to described regulars who stay for five or six hours on a single order. [Add barista and manager quotes from Double Shot, Artisan, Gloria Jean's and Brown.] For the owners, this is the business model: the coffee pays for the seat.",
+      "> [Quote from dhaba worker interview: how business has changed]",
+      "At the dhaba, the conversation is different. Business has not disappeared, but the customers have changed. The students who once filled the plastic chairs late at night are fewer. The people who remain are workers, drivers and men from the neighbourhood, the people for whom a thousand-rupee coffee was never an option.",
+      "None of this makes coffee the villain. Cafés create jobs, give young entrepreneurs a foothold and offer women a public space that many feel is safer than a roadside stall. That last point matters, and it was raised by several students we asked. [Add student interview findings.]",
+      "But the boom also shows us something about who the city is being built for. When the comfortable public spaces all charge for entry, the people who cannot pay are not just priced out of a drink. They are priced out of a way of being in the city.",
+      "Perhaps the question is not chai or coffee. It is whether Lahore can make room for both: cafés that welcome more than one class of customer, and dhabas that are seen as worth protecting, not just as nostalgia but as some of the last truly public places the city has left."
+    ]
+  },
+  "side": [
+    {
+      "id": "side-1", "sample": true, "section": "Side Story", "author": "[Writer]", "image": "images/smog.jpg",
+      "title": "Autumn, or Smog Season?",
+      "dek": "Every October Lahore loses its sky. Every October the same promises are made.",
+      "body": [
+        "For most of the world, autumn means falling leaves and cooler evenings. In Lahore it increasingly means a grey haze that settles over the city by late October and stays until the winter rain.",
+        "The causes are well known: vehicle emissions, brick kilns, industrial smoke and the burning of crop stubble after the rice harvest, made worse by still winter air that traps everything close to the ground. Each year the air quality index climbs into the hazardous range and schools close, sometimes for weeks.",
+        "What is striking is how routine the crisis has become. Smog 'season' now arrives with its own rituals: emergency orders, masks, a few weeks of headlines and then silence until next year. [Add a quote from a student or doctor about the health impact.]",
+        "The burden is not shared equally. People who can afford air purifiers stay indoors. Rickshaw drivers, street vendors and traffic police breathe the air all day. A crisis that looks like it affects everyone falls hardest on those with the least protection.",
+        "Real solutions exist, from cleaner kiln technology to support for farmers so they don't have to burn stubble. The question this autumn, like every autumn, is whether anyone will still be talking about them in March."
+      ]
+    },
+    {
+      "id": "side-2", "sample": true, "section": "Side Story", "author": "[Writer]", "image": "images/fashion.jpg",
+      "title": "What We Wear to Class",
+      "dek": "On campus, a kurta, a hoodie or a dupatta can say as much as an opinion.",
+      "body": [
+        "Spend a morning on any university lawn in Lahore and you will see a full spectrum: branded hoodies, khaddar kurtas, thrifted denim, ajrak scarves, abayas, sneakers that cost more than a month's rent.",
+        "Clothes have always been political in Pakistan. The shalwar kameez was promoted as national dress, the sari was pushed out of public life in the 1980s, and khaddar carries echoes of the independence movement. On campus, students are still using clothes to say who they are and what they believe.",
+        "[Add quotes from students about why they dress the way they do.]",
+        "Some choices are about identity: a student from Sindh wearing ajrak to class, or someone choosing local brands over imports. Some are about class, visible in a logo or a price tag. Some are about resisting the pressure to look a certain way.",
+        "Clothes cannot change policy, but they show which values a generation wants to be seen holding. In that sense the campus lawn is a kind of public debate, held in silence every day."
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "id": "column-1", "sample": true, "section": "Column", "author": "[Columnist]", "image": "",
+      "title": "The Minister and the Machine",
+      "dek": "When senior officials can't tell a real post from an AI one, what happens to public trust?",
+      "body": [
+        "[Sample column. Check every specific claim and add links to the actual posts before publishing.]",
+        "Social media has given Pakistan's politicians a direct line to the public, and our defence minister uses it more freely than most. Recently some of his replies to posts that appear to be AI-generated have become a talking point.",
+        "It is easy to laugh, and the internet has. But the joke has a serious side. If people in government cannot tell a generated image from a real one, how much care goes into the information they act on?",
+        "This matters more in a country where trust in official processes is already low. After disputed elections and the Form 47 controversy, many citizens already doubt what they are told. Every careless repost makes that doubt worse.",
+        "AI-generated content is not going away. It will get better, faster and harder to spot. Governments around the world are working out how to verify what they share. Ours could start with a simple rule: check before you post.",
+        "Until then, the public will keep doing the fact-checking for them."
+      ]
+    },
+    {
+      "id": "column-2", "sample": true, "section": "Op-Ed", "author": "Mashal Irfan", "image": "",
+      "title": "Give Us Our Parks Back",
+      "dek": "Before we worry about too many cafés, we should ask why there are so few free places left to sit.",
+      "body": [
+        "Lahore was once called the city of gardens. Ask a student today where they can spend an afternoon without spending money, and most will struggle to name somewhere.",
+        "Parks still exist, but many are poorly lit, poorly maintained, or simply unwelcoming, especially for young women. Libraries close early. Many public spaces feel built for passing through, not staying.",
+        "So people go where there is shade, seating and safety. Increasingly, that means somewhere that charges for it. The café boom is not only a story about taste. It is what happens when a city stops investing in free public space.",
+        "The fix is not complicated: better lighting, clean washrooms, Wi-Fi in public libraries, benches that are not chained away, and parks that stay open in the evening. These are small things, and they would let people of every income share the same city.",
+        "A city's generosity is measured by what it offers for free. Right now, Lahore is not offering much."
+      ]
+    }
+  ],
+  "reports": [
+    {
+      "id": "report-1", "sample": true, "section": "Report", "author": "Alizay Khanzada, Minahil Khan, Ashiq, Fatima Javed", "image": "images/report.jpg",
+      "title": "Four Cafés, Two Dhabas, One Afternoon",
+      "dek": "Our reporters spent a day where Lahore drinks its coffee and its chai.",
+      "body": [
+        "Our reporting team visited Double Shot, Artisan, Gloria Jean's and Brown, along with two dhabas nearby, and spoke to owners, managers, baristas, dhaba workers and customers.",
+        "We asked everyone the same core questions: who comes here, how long they stay, how prices have changed, and what the place means to the people who use it.",
+        "[Findings from the cafés: price ranges, busiest hours, typical customers.]",
+        "[Findings from the dhabas: how business has changed, who the regulars are.]",
+        "> [Strongest quote from the interviews]",
+        "[What stood out: the main contrast the team noticed between the two kinds of space.]"
+      ]
+    }
+  ],
+  "playlist": [
+    { "title": "Sayonee", "artist": "Junoon", "year": 1997 },
+    { "title": "Dil Dil Pakistan", "artist": "Vital Signs", "year": 1987 },
+    { "title": "Hawa Hawa", "artist": "Hassan Jahangir", "year": 1987 },
+    { "title": "Disco Deewane", "artist": "Nazia & Zoheb Hassan", "year": 1981 },
+    { "title": "Aankhon Ke Sagar", "artist": "Fuzon", "year": 2002 },
+    { "title": "Duur", "artist": "Strings", "year": 2000 }
+  ],
+  "puzzles": {
+    "Coffee Culture": ["COFFEE", "CHAI", "DHABA", "BARISTA", "LATTE", "ESPRESSO", "AUTUMN", "LAHORE", "MATCHA", "CAFE", "CLASS", "THIRDSPACE"],
+    "Heritage Sites": ["BADSHAHI", "TAXILA", "HARAPPA", "ROHTAS", "MAKLI", "SHALIMAR", "MULTAN", "THATTA", "DERAWAR", "MOHENJODARO", "LAHOREFORT"]
+  },
+  "team": {
+    "Editor-in-Chief": ["Fatima"],
+    "Deputy Editor": ["Kashaf"],
+    "Sub-Editors": ["Amna Billoo", "Insiya Bakali", "Hussain"],
+    "Writers": ["Mashal Irfan", "Natalia", "Subhan Ali", "Fatima Zahid", "Alesha"],
+    "Reporters": ["Alizay Khanzada", "Minahil Khan", "Ashiq", "Fatima Javed"],
+    "Social Media": ["Yumna Junaid", "Khadija Sajid", "Zaynab Tiwana"],
+    "Photography & Media": ["Javeria Tariq", "Jahangeer Khan", "Mymnah"],
+    "Website": ["M. Suleman Khan", "Muhammad Hamdan"]
+  }
+};
+async function loadContent() { return CONTENT; }
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="todo">$1</span>');
+const words = a => [a.title, a.dek, ...(a.body || [])].join(" ").split(/\s+/).length;
+const readTime = a => `${Math.max(1, Math.round(words(a) / 220))} min read`;
+const today = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+let C, ALL = [];
+
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200); }
+
+/* Theme */
+function applyTheme(t) { if (t) document.documentElement.dataset.theme = t; $("themeBtn").textContent = isDark() ? "Light" : "Dark"; }
+const isDark = () => getComputedStyle(document.documentElement).colorScheme.includes("dark");
+$("themeBtn").onclick = () => { const t = isDark() ? "light" : "dark"; store.set("naama-theme", t); applyTheme(t); };
+applyTheme(store.get("naama-theme"));
+
+function photo(src, cap = "Photo: media team") {
+  return `<div class="photo${src ? "" : " empty"}">${src ? `<img src="${esc(src)}" alt="" onerror="this.parentNode.classList.add('empty');this.remove()">` : ""}<span class="cap">${esc(cap)}</span></div>`;
+}
+const badge = a => a.sample ? `<span class="badge">Sample text</span>` : "";
+const initial = n => esc((String(n).replace(/[^A-Za-z]/g, "")[0] || "N").toUpperCase());
+const monoColors = ["var(--burgundy)", "var(--orange)", "var(--olive)"];
+
+function render() {
+  $("today").textContent = today;
+  $("edition").textContent = C.issue.edition;
+  if (C.issue.logo) { const l = $("logo"); l.onload = () => l.hidden = false; l.src = C.issue.logo; }
+
+  const m = C.main;
+  const head = esc(m.title).replace(/^(\S+)(\s)/, "<em>$1</em>$2");
+  $("lead").innerHTML = `<div role="button" tabindex="0" class="story cover" data-id="${esc(m.id)}">
+    ${photo(m.image)}
+    ${badge(m)}<span class="label">${esc(m.section)}</span>
+    <h2>${head}</h2><p class="dek">${fmt(m.dek)}</p>
+    <span class="meta"><span class="byline">By ${fmt(m.author)}</span><span class="byline">· ${readTime(m)}</span><span class="btn">Read the story</span></span></div>`;
+
+  $("side").innerHTML = C.side.map(a => `<div role="button" tabindex="0" class="story" data-id="${esc(a.id)}">${badge(a)}<span class="label">${esc(a.section)}</span>
+    <h3>${fmt(a.title)}</h3><p>${fmt(a.dek)}</p><span class="byline">By ${fmt(a.author)} · ${readTime(a)}</span></div>`).join("")
+    + `<div class="note">${badge(C.editorsNote)}<span class="label">Editor's Note</span><p>${fmt(C.editorsNote.text)}</p><span class="byline">${fmt(C.editorsNote.author)}</span></div>`;
+
+  $("columnList").innerHTML = C.columns.map((a, i) => `<div role="button" tabindex="0" class="story col-card" data-id="${esc(a.id)}">
+    <span class="mono" style="background:${monoColors[i % 3]}">${initial(a.author)}</span>
+    <span class="story">${badge(a)}<span class="label">${esc(a.section)}</span><h3>${fmt(a.title)}</h3><p>${fmt(a.dek)}</p><span class="byline">By ${fmt(a.author)}</span></span></div>`).join("");
+  $("reportList").innerHTML = C.reports.map(a => `<div role="button" tabindex="0" class="story rep-card" data-id="${esc(a.id)}">${badge(a)}<span class="label">${esc(a.section)}</span>
+    <h3>${fmt(a.title)}</h3><p>${fmt(a.dek)}</p><span class="byline">By ${fmt(a.author)} · ${readTime(a)}</span></div>`).join("");
+
+  const items = ALL.map(a => `<span><b>${esc(a.section)}</b>${esc(a.title.replace(/\[|\]/g, ""))}</span>`).join("");
+  $("ticker").innerHTML = items + items;
+
+  $("playlist").innerHTML = C.playlist.map(s => `<li><span>${esc(s.title)}<span class="artist">${esc(s.artist)}</span></span><span class="yr">${esc(s.year)}</span></li>`).join("");
+  let k = 0;
+  $("teamList").innerHTML = Object.entries(C.team).map(([role, names]) => `<div><h3>${esc(role)}</h3><ul>${names.map(n =>
+    `<li><span class="mono" style="background:${monoColors[k++ % 3]}">${initial(n)}</span>${esc(n)}</li>`).join("")}</ul></div>`).join("");
+}
+
+/* Reader */
+function openStory(id, push = true) {
+  const a = ALL.find(x => x.id === id); if (!a) return;
+  const ov = $("readerOv");
+  ov.innerHTML = `<article class="reader" role="dialog" aria-modal="true" aria-label="${esc(a.title)}">
+    <div class="bar"><div><button class="icon-btn" data-size="-1" aria-label="Smaller text">A−</button><button class="icon-btn" data-size="1" aria-label="Larger text">A+</button><button class="icon-btn" id="copyLink">Copy link</button></div>
+      <button class="btn ghost" id="closeReader">Close ✕</button></div>
+    ${badge(a)}<span class="label">${esc(a.section)}</span>
+    <h2>${fmt(a.title)}</h2><p class="dek">${fmt(a.dek)}</p>
+    <span class="byline">By ${fmt(a.author)} · ${esc(C.issue.edition)} · ${readTime(a)}</span>
+    ${a.image ? photo(a.image) : ""}
+    <div class="body">${(a.body || []).map(p => p.startsWith("> ") ? `<blockquote>${fmt(p.slice(2))}</blockquote>` : `<p>${fmt(p)}</p>`).join("")}</div>
+    <button class="btn ghost" id="closeReader2" style="align-self:flex-start">Back to the paper</button>
+  </article>`;
+  ov.hidden = false; $("progress").hidden = false; ov.scrollTop = 0; updateProgress();
+  document.body.style.overflow = "hidden";
+  $("closeReader").focus();
+  if (push) try { history.replaceState(null, "", "#" + a.id); } catch {}
+}
+function closeStory() {
+  $("readerOv").hidden = true; $("progress").hidden = true; document.body.style.overflow = "";
+  try { history.replaceState(null, "", location.pathname + location.search); } catch {}
+}
+function updateProgress() { const ov = $("readerOv"); const max = ov.scrollHeight - ov.clientHeight; $("progress").style.width = (max > 0 ? ov.scrollTop / max * 100 : 100) + "%"; }
+$("readerOv").addEventListener("scroll", updateProgress);
+$("readerOv").addEventListener("click", e => {
+  if (e.target.id === "readerOv" || e.target.id === "closeReader" || e.target.id === "closeReader2") return closeStory();
+  const s = e.target.closest("[data-size]");
+  if (s) { const cur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--reader-size")) || 18; document.documentElement.style.setProperty("--reader-size", Math.min(26, Math.max(14, cur + +s.dataset.size * 2)) + "px"); }
+  if (e.target.id === "copyLink") {
+    const url = location.href;
+    navigator.clipboard?.writeText(url).then(() => toast("Link copied"), () => toast("Copy this link from the address bar"));
+  }
+});
+
+/* Search */
+function openSearch() { $("searchOv").hidden = false; $("q").value = ""; runSearch(); $("q").focus(); }
+function runSearch() {
+  const q = $("q").value.trim().toLowerCase();
+  const hits = ALL.filter(a => !q || [a.title, a.dek, a.author, a.section, ...(a.body || [])].join(" ").toLowerCase().includes(q));
+  $("results").innerHTML = hits.length ? hits.map(a => `<li><button data-id="${esc(a.id)}"><span class="label">${esc(a.section)}</span><strong>${fmt(a.title)}</strong><span class="byline">${fmt(a.dek)}</span></button></li>`).join("")
+    : `<li class="byline">Nothing in this issue matches "${esc(q)}".</li>`;
+}
+$("q").addEventListener("input", runSearch);
+$("searchBtn").onclick = openSearch;
+$("searchOv").addEventListener("click", e => { if (e.target.id === "searchOv") $("searchOv").hidden = true; });
+
+document.addEventListener("click", e => {
+  const s = e.target.closest("[data-id]");
+  if (s && !e.target.closest("#readerOv")) { $("searchOv").hidden = true; openStory(s.dataset.id); }
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") { if (!$("readerOv").hidden) closeStory(); $("searchOv").hidden = true; }
+  const typing = /INPUT|TEXTAREA/.test(document.activeElement?.tagName);
+  if (!typing && (e.key === "/" || (e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey)))) { e.preventDefault(); openSearch(); }
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches?.('[role="button"][data-id]')) { e.preventDefault(); openStory(e.target.dataset.id); }
+  if (document.activeElement === $("bookHost")) { if (e.key === "ArrowRight") turn(1); if (e.key === "ArrowLeft") turn(-1); }
+});
+
+/* Section highlight in nav */
+const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + en.target.id)); }), { rootMargin: "-40% 0px -55% 0px" });
+document.querySelectorAll("section.block").forEach(s => io.observe(s));
+
+/* Book: 3D leaves on wide screens, one page at a time on phones */
+let PAGES = [], pos = 0, mode = "";
+function pageHTML(p, n) {
+  if (p.kind === "cover") return `<div class="pg coverpg"><span class="label">${esc(C.issue.edition)}</span><div class="big">The Pakistan Naama</div><p>${fmt(C.main.title)}</p><span class="pno">${today}</span></div>`;
+  if (p.kind === "end") return `<div class="pg endpg"><div class="big">Shukriya</div><p>Thanks for reading the Fall Edition.</p><a class="btn" href="#fun">Play the puzzles</a></div>`;
+  let inner;
+  if (p.kind === "contents") inner = `<span class="label">Contents</span><h3>In this issue</h3><ol>${ALL.map(a => `<li><button class="linky" data-id="${esc(a.id)}">${fmt(a.title)}</button> <span class="byline">· ${esc(a.section)}</span></li>`).join("")}</ol>`;
+  else if (p.kind === "note") inner = `<span class="label">Editor's Note</span><h3>Welcome</h3><p style="font-family:var(--f-head);font-style:italic">${fmt(C.editorsNote.text)}</p><span class="byline">${fmt(C.editorsNote.author)}</span>`;
+  else { const a = p.a; inner = `${a.image ? photo(a.image) : ""}<span class="label">${esc(a.section)}</span><h3>${fmt(a.title)}</h3><p>${fmt(a.dek)}</p><span class="byline">By ${fmt(a.author)} · ${readTime(a)}</span><button class="btn ghost" style="align-self:flex-start" data-id="${esc(a.id)}">Read in full</button>`; }
+  return `<div class="pg">${inner}<span class="pno">Page ${n}</span></div>`;
+}
+function buildBook() {
+  PAGES = [{ kind: "cover" }, { kind: "contents" }, { kind: "note" }, ...ALL.map(a => ({ a })), { kind: "end" }];
+  mode = matchMedia("(max-width: 800px)").matches ? "mobile" : "3d";
+  const host = $("bookHost");
+  if (mode === "3d") {
+    if (PAGES.length % 2) PAGES.splice(PAGES.length - 1, 0, { kind: "note" });
+    const n = PAGES.length / 2;
+    host.innerHTML = `<div class="book3d">${Array.from({ length: n }, (_, k) => `<div class="leaf" style="z-index:${n - k}">
+      <div class="face front">${pageHTML(PAGES[2 * k], 2 * k)}</div><div class="face back">${pageHTML(PAGES[2 * k + 1], 2 * k + 1)}</div></div>`).join("")}</div>`;
+    pos = Math.min(pos, n);
+  } else { pos = Math.min(pos, PAGES.length - 1); }
+  showBook();
+}
+function showBook() {
+  if (mode === "3d") {
+    const leaves = [...document.querySelectorAll(".leaf")], n = leaves.length;
+    leaves.forEach((l, k) => { const f = k < pos; l.classList.toggle("flipped", f); l.style.zIndex = f ? k + 1 : n - k; });
+    $("pageInfo").textContent = pos === 0 ? "Cover" : pos === n ? "Back cover" : `Pages ${2 * pos - 1}–${2 * pos}`;
+    $("prev").disabled = pos === 0; $("next").disabled = pos === n;
+  } else {
+    $("bookHost").innerHTML = `<div class="book-mobile">${pageHTML(PAGES[pos], pos)}</div>`;
+    $("pageInfo").textContent = `${pos + 1} / ${PAGES.length}`;
+    $("prev").disabled = pos === 0; $("next").disabled = pos === PAGES.length - 1;
+  }
+}
+function turn(d) {
+  const max = mode === "3d" ? document.querySelectorAll(".leaf").length : PAGES.length - 1;
+  const next = Math.max(0, Math.min(max, pos + d)); if (next === pos) return;
+  if (mode === "3d") { const l = document.querySelectorAll(".leaf")[d > 0 ? pos : next]; if (l) l.style.zIndex = 999; }
+  pos = next; setTimeout(showBook, mode === "3d" ? 20 : 0);
+}
+$("prev").onclick = () => turn(-1);
+$("next").onclick = () => turn(1);
+let sx = null;
+$("bookHost").addEventListener("touchstart", e => sx = e.touches[0].clientX, { passive: true });
+$("bookHost").addEventListener("touchend", e => { if (sx !== null) { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) turn(dx < 0 ? 1 : -1); sx = null; } });
+matchMedia("(max-width: 800px)").addEventListener("change", () => { pos = 0; buildBook(); });
+
+/* Word search: drag across letters, or tap the first and last letter */
+const SIZE = 12, DIRS = [[0, 1], [1, 0], [1, 1], [-1, 1]];
+function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function buildPuzzle(list, seed) {
+  const r = rng(seed), g = Array.from({ length: SIZE }, () => Array(SIZE).fill(""));
+  for (const w of [...list].sort((a, b) => b.length - a.length)) {
+    for (let t = 0; t < 800; t++) {
+      const [dr, dc] = DIRS[Math.floor(r() * 4)], row = Math.floor(r() * SIZE), col = Math.floor(r() * SIZE);
+      const er = row + dr * (w.length - 1), ec = col + dc * (w.length - 1);
+      if (er < 0 || er >= SIZE || ec >= SIZE) continue;
+      let ok = true;
+      for (let k = 0; k < w.length; k++) { const ch = g[row + dr * k][col + dc * k]; if (ch && ch !== w[k]) { ok = false; break; } }
+      if (!ok) continue;
+      for (let k = 0; k < w.length; k++) g[row + dr * k][col + dc * k] = w[k];
+      break;
+    }
+  }
+  const AB = "ABCDEFGHIKLMNOPRSTUY";
+  return g.map(row => row.map(ch => ch || AB[Math.floor(r() * AB.length)]));
+}
+let ws = {};
+function loadPuzzle(name) {
+  const list = C.puzzles[name].map(w => w.toUpperCase().replace(/[^A-Z]/g, "")).filter(w => w.length > 1 && w.length <= SIZE);
+  ws = { name, list, grid: buildPuzzle(list, 7 + name.length * 131), found: new Set(), start: null, dragging: false };
+  $("wsTabs").innerHTML = Object.keys(C.puzzles).map(n => `<button class="btn" aria-pressed="${n === name}" data-p="${esc(n)}">${esc(n)}</button>`).join("");
+  $("wsGrid").style.gridTemplateColumns = `repeat(${SIZE}, auto)`;
+  $("wsGrid").innerHTML = ws.grid.flatMap((row, r) => row.map((ch, c) => `<button data-r="${r}" data-c="${c}" aria-label="${ch}, row ${r + 1} column ${c + 1}">${ch}</button>`)).join("");
+  $("wsWords").innerHTML = list.map(w => `<li data-w="${w}">${w}</li>`).join("");
+  $("wsMsg").textContent = "Drag across a word, or tap its first and last letters.";
+}
+function lineCells([r0, c0], [r, c]) {
+  const dr = Math.sign(r - r0), dc = Math.sign(c - c0);
+  if (!(r === r0 || c === c0 || Math.abs(r - r0) === Math.abs(c - c0))) return null;
+  const len = Math.max(Math.abs(r - r0), Math.abs(c - c0)) + 1;
+  return Array.from({ length: len }, (_, k) => [r0 + dr * k, c0 + dc * k]);
+}
+const cellEl = (r, c) => $("wsGrid").querySelector(`[data-r="${r}"][data-c="${c}"]`);
+function highlight(cells) { $("wsGrid").querySelectorAll(".sel").forEach(x => x.classList.remove("sel")); (cells || []).forEach(([r, c]) => cellEl(r, c).classList.add("sel")); }
+function finish(end) {
+  const cells = lineCells(ws.start, end); ws.start = null; highlight(null);
+  if (!cells || cells.length < 2) { $("wsMsg").textContent = "Pick letters in a straight line."; return; }
+  const str = cells.map(([r, c]) => ws.grid[r][c]).join("");
+  const hit = ws.list.find(w => !ws.found.has(w) && (w === str || w === [...str].reverse().join("")));
+  if (!hit) { $("wsMsg").textContent = `"${str}" isn't on the list. Try again.`; return; }
+  ws.found.add(hit);
+  cells.forEach(([r, c]) => cellEl(r, c).classList.add("found"));
+  $("wsWords").querySelector(`[data-w="${hit}"]`).classList.add("done");
+  $("wsMsg").textContent = ws.found.size === ws.list.length ? `All ${ws.list.length} words found. Shabash!` : `Found ${hit}. ${ws.list.length - ws.found.size} to go.`;
+}
+const cellAt = e => { const el = document.elementFromPoint(e.clientX, e.clientY)?.closest?.("#wsGrid button"); return el ? [+el.dataset.r, +el.dataset.c] : null; };
+$("wsGrid").addEventListener("pointerdown", e => {
+  const p = cellAt(e); if (!p) return; e.preventDefault();
+  if (ws.start && !ws.dragging) { finish(p); return; }
+  ws.start = p; ws.dragging = true; ws.moved = false; highlight([p]);
+});
+$("wsGrid").addEventListener("pointermove", e => {
+  if (!ws.dragging) return; const p = cellAt(e); if (!p) return;
+  if (p[0] !== ws.start[0] || p[1] !== ws.start[1]) ws.moved = true;
+  highlight(lineCells(ws.start, p) || [ws.start]);
+});
+addEventListener("pointerup", e => {
+  if (!ws.dragging) return; ws.dragging = false;
+  const p = cellAt(e);
+  if (ws.moved && p) finish(p); // a plain tap keeps the first letter selected
+});
+$("wsGrid").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); const b = e.target.closest("button"); if (!b) return; const p = [+b.dataset.r, +b.dataset.c]; if (ws.start) finish(p); else { ws.start = p; highlight([p]); } } });
+$("wsTabs").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) loadPuzzle(b.dataset.p); });
+
+/* Falling leaves behind the masthead */
+function leaves() {
+  const cv = $("leaves"), ctx = cv.getContext("2d");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let W, H, L, visible = true;
+  const size = () => { const d = devicePixelRatio || 1; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
+  size(); addEventListener("resize", size);
+  const mk = y => ({ x: Math.random() * W, y: y ?? -20, s: 6 + Math.random() * 9, v: .25 + Math.random() * .5, a: Math.random() * 6.28, sp: (Math.random() - .5) * .03, sw: Math.random() * 6.28, c: ["--burgundy", "--orange", "--olive"][Math.floor(Math.random() * 3)] });
+  L = Array.from({ length: Math.max(10, Math.round(W / 70)) }, () => mk(Math.random() * H));
+  new IntersectionObserver(([e]) => visible = e.isIntersecting).observe(cv);
+  (function frame() {
+    if (visible) {
+      ctx.clearRect(0, 0, W, H);
+      for (const l of L) {
+        l.y += l.v; l.sw += .02; l.x += Math.sin(l.sw) * .5; l.a += l.sp;
+        if (l.y > H + 20) Object.assign(l, mk());
+        ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(l.a); ctx.globalAlpha = .28; ctx.fillStyle = css(l.c);
+        ctx.beginPath(); ctx.moveTo(0, -l.s); ctx.quadraticCurveTo(l.s * .8, 0, 0, l.s); ctx.quadraticCurveTo(-l.s * .8, 0, 0, -l.s); ctx.fill();
+        ctx.globalAlpha = .4; ctx.strokeStyle = css("--bg"); ctx.lineWidth = .8; ctx.beginPath(); ctx.moveTo(0, -l.s); ctx.lineTo(0, l.s); ctx.stroke();
+        ctx.restore();
+      }
+    }
+    requestAnimationFrame(frame);
+  })();
+}
+
+/* Start */
+loadContent().then(data => {
+  C = data;
+  ALL = [C.main, ...C.side, ...C.columns, ...C.reports];
+  render(); buildBook(); loadPuzzle(Object.keys(C.puzzles)[0]); leaves();
+  const h = location.hash.slice(1); if (ALL.some(a => a.id === h)) openStory(h, false);
+}).catch(e => { $("lead").innerHTML = `<p class="todo">${esc(e.message)}</p>`; });
+</script>
+</body>
+</html>
